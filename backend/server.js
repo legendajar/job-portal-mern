@@ -5,6 +5,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js'
 import userRouter from './routes/userRoute.js';
 import companyRouter from './routes/companyRoute.js';
+import jobRouter from './routes/jobRoute.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -33,7 +34,9 @@ app.get('/home', (req, res) => {
 });
 
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/company", companyRouter)
+app.use("/api/v1/company", companyRouter);
+app.use("/api/v1/job", jobRouter);
+
 
 
 // Server Running
