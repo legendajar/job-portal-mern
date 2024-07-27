@@ -113,7 +113,6 @@ const login = async (req, res) => {
 
     try {
         let user = await userModel.findOne({ email: email });
-        console.log(user);
         if (!user) {
             return res.status(400).json({
                 success: false,

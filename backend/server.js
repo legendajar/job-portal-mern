@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectDB } from './config/db.js'
 import userRouter from './routes/userRoute.js';
+import companyRouter from './routes/companyRoute.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -32,6 +33,7 @@ app.get('/home', (req, res) => {
 });
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/company", companyRouter)
 
 
 // Server Running
