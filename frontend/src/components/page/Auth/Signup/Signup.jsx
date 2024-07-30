@@ -8,6 +8,9 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import USER_API_END_POINT from "@/utils/constant.js"
 import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { setLoading } from "@/redux/authSlice"
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -21,7 +24,9 @@ const Signup = () => {
     file: ""
   })
 
-  const navigate = useNavigate()
+  const { loading } = useSelector(store => store.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   const changeEventHandler = (e) => {
@@ -44,6 +49,7 @@ const Signup = () => {
     
     // API call to register the user
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/register`, input);
 
       if (res.data.success){
@@ -52,6 +58,9 @@ const Signup = () => {
       }
     } catch(err) {
       console.log(err);
+      toast.error(err.response.data.message)
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 
@@ -168,7 +177,12 @@ const Signup = () => {
               />
             </div>
           </div>
-          <Button type="submit" className="w-full my-4 bg-[#F83002]"> SignUp </Button>
+          {
+            loading ? 
+            <Button> <Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please Wait </Button> : 
+            <Button type="submit" className="w-full my-4 bg-[#F83002]"> Signup </Button>
+          }
+
           <span className="text-sm">Already have an account ? 
             <Link to='/auth/login' className='text-blue-600'> Login</Link>
           </span>

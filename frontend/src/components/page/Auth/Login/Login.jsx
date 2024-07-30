@@ -3,9 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
+import { setLoading } from '@/redux/authSlice';
 import USER_API_END_POINT from '@/utils/constant.js';
 import axios from 'axios';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -22,7 +25,9 @@ const Login = () => {
     })
   };
 
-  const navigate = useNavigate()
+  const {loading} = useSelector(store=>store.auth)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -31,8 +36,10 @@ const Login = () => {
     formData.append("email", input.email);
     formData.append("password", input.password);
     formData.append("role", input.role);
+    
     // API call to login the user
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, formData, {
         headers: {
           "Content-Type": "application/json"
@@ -46,6 +53,9 @@ const Login = () => {
       }
     } catch (err) {
       console.log(err)
+      toast.error(err.response.data.message)
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 
@@ -102,7 +112,12 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button type="submit" className="w-full my-4 bg-[#F83002]"> Login </Button>
+          {
+            loading ? 
+            <Button> <Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please Wait </Button> : 
+            <Button type="submit" className="w-full my-4 bg-[#F83002]"> Login </Button>
+          }
+          
           <span className="text-sm"> Don't have an account ? 
             <Link to='/auth/signup' className='text-blue-600'> Signup</Link>
           </span>
