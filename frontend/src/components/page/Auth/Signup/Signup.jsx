@@ -14,7 +14,7 @@ const Signup = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    mobile: "",
     password: "",
     confirmPassword: "",
     role: "student",
@@ -42,29 +42,12 @@ const Signup = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     
-    const formData = new FormData();
-    formData.append("firstName", input.firstName);
-    formData.append("lastName", input.lastName);
-    formData.append("email", input.email);
-    formData.append("phone", input.phone);
-    formData.append("password", input.password);
-    formData.append("confirmPassword", input.confirmPassword);
-    formData.append("role", input.role);
-    if (input.file) {
-      formData.append("file", input.file);
-    }
-
     // API call to register the user
     try {
-      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
-        headers: {
-          'Content-Type':'multipart/form-data'
-        },
-        withCredentials: true
-      });
+      const res = await axios.post(`${USER_API_END_POINT}/register`, input);
 
       if (res.data.success){
-        navigate("/login");
+        navigate("/auth/login");
         toast.success(res.data.message);
       }
     } catch(err) {
@@ -117,8 +100,8 @@ const Signup = () => {
             <Label htmlFor="">Phone</Label>
             <Input 
               type="text"
-              value={input.phone}
-              name="phone"
+              value={input.mobile}
+              name="mobile"
               onChange={changeEventHandler}
               placeholder="Enter Phone Number"
               required
