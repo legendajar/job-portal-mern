@@ -11,9 +11,11 @@ const LatestJobs = () => {
             <span className="text-[#f83002]"> Latest & Top </span> Job Openings
         </h1>
         {/* Multiple Job Cards Display */}
-        {
-            randomJobs.map((item, index) => <LatestJobCards /> )
-        }
+        <div className="grid grid-cols-3 gap-4 my-5">
+          {
+              randomJobs.slice(0,6).map((item, index) => <LatestJobCards /> )
+          }
+        </div>
     </div>
   )
 }
