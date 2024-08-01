@@ -6,12 +6,15 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Contact, Mail, Pen } from 'lucide-react'
-import React from 'react'
+import { useState } from 'react'
+import UpdateProfileDialog from '@/components/UpdateProfileDialog/UpdateProfileDialog'
+import { useSelector } from 'react-redux'
 
-const skills = ["HTML", "CSS", "JS", "ReactJS"]
 
 const Profile = () => {
-    const isResume = true;
+    const [open, setOpen] = useState(false);
+    const {user} = useSelector(store => store.auth);
+
     return (
         <div>
             <Navbar />
@@ -22,28 +25,30 @@ const Profile = () => {
                             <AvatarImage src='/microsoft_logo.png' alt='profile'/>
                         </Avatar>
                         <div>
-                            <h1 className='font-medium text-xl'>First Name + Last Name</h1>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa recusandae impedit dolorum.</p>
+                            <h1 className='font-medium text-xl'>{user?.firstName} {user?.lastName}</h1>
+                            <p>
+                                {user?.profile?.bio}
+                            </p>
                         </div>
                     </div>
-                    <Button className='text-right' variant='outline'><Pen /></Button>
+                    <Button onClick={() => setOpen(true)}className='text-right' variant='outline'><Pen /></Button>
                 </div>
                 <div className="my-5">
                     <div className='flex items-center gap-3 my-2'>
                         <Mail />
-                        <span>supriyasingh@gmail.com</span>
+                        <span>{user?.email}</span>
                     </div>
                     <div className="flex items-center gap-3 my-2">
                         <Contact />
-                        <span>+91 7688874472</span>
+                        <span>{user?.mobile}</span>
                     </div>
                 </div>
                 <div className='my-5'>
                     <h1>Skills</h1>
                     <div className='flex items-center gap-1'>
                         {
-                            skills.length !== 0 ? 
-                            skills.map((item, index) => <Badge key={index}>{item}</Badge>) : 
+                            user?.profile?.skills.length !== 0 ? 
+                            user?.profile?.skills.map((item, index) => <Badge key={index}>{item}</Badge>) : 
                             <span>NA</span>   
                         }
                     </div>
@@ -51,9 +56,8 @@ const Profile = () => {
                 <div className="grid w-full max-w-sm items-center gap-1 5">
                     <Label className='text-md font-bold'>Resume</Label>
                     {
-                        isResume ? 
-                        <a target='blank' href="https://youtube.com" className='text-blue-500 w-full hover:underline cursor-pointer'>Resume Link</a> : 
-                        <span>NA</span>
+                        user?.profile?.resume ? 
+                        <a target='blank' href="https://youtube.com" className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
                     }
                 </div>
             </div>
@@ -62,6 +66,7 @@ const Profile = () => {
                 {/* Application Table */}
                 <AppliedJobTable />
             </div>
+            <UpdateProfileDialog open={open} setOpen={setOpen} />
             <Footer />
         </div>
     )

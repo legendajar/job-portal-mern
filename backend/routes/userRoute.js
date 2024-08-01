@@ -15,6 +15,6 @@ userRouter.post('/login', login);
 userRouter.post('/logout', logout);
 
 // Update Profile Route
-userRouter.post('/updateProfile', isAuthenticated, updateProfile);
+userRouter.post('/updateProfile', isAuthenticated, singleUpload,  updateProfile);
 
 export default userRouter;

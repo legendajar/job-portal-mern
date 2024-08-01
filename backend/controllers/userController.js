@@ -1,6 +1,9 @@
 import userModel from "../models/userModel.js"
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
+import getUriData from "../utils/dataUri.js";
+import cloudinary from "../utils/cloudinary.js";
+import singleUpload from "../middlewares/multer.js";
 
 const register = async (req, res) => {
     const { firstName, lastName, email, mobile, role, password, confirmPassword } = req.body;
@@ -192,12 +195,34 @@ const logout = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
         const { firstName, lastName, email, mobile, bio, skills } = req.body;
-        const file = req.file;
 
-        // cloudinary 
-        let skillsArray;
+        const file = req.file;
+        console.log(file)
+
+        let cloudResponse;
+            if (file) {
+                try {
+                    const fileUri = getUriData(file); // Ensure getUriData is defined
+                    cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+                } catch (uploadError) {
+                    console.error("Error uploading file to Cloudinary:", uploadError);
+                    return res.status(500).json({
+                        success: false,
+                        message: "Error uploading file to Cloudinary"
+                    });
+                }
+            } else {
+                console.warn("No file uploaded");
+            }
+
+        // cloudinary
+        // const fileUri = getUriData(file);
+        // const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+        
+        
+        let skillsArray = [];
         if (skills) {
-            const skillsArray = skills.split(",");
+            skillsArray = skills.split(",");
         }
         const userId = req.id; // middleware authentication
         
@@ -214,9 +239,13 @@ const updateProfile = async (req, res) => {
         if (email) user.email = email;
         if (mobile) user.mobile = mobile;
         if (bio) user.profile.bio = bio;
-        if (skills) user.profile.skills = skillsArray, 
+        if (skills) user.profile.skills = skillsArray; 
 
-        // resumes
+        // resume
+        if (cloudResponse) {
+            user.profile.resume = cloudResponse.secure_url // save the cloudinary url
+            user.profile.resumeOriginalName = file.originalname // save the original file name
+        }
 
         await user.save();
 
@@ -239,7 +268,7 @@ const updateProfile = async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.status(500).json({
-            success: true,
+            success: false,
             message: "Internal Server Error"
         })
     }
