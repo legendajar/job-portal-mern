@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import USER_API_END_POINT from "@/utils/constant.js";
+import {USER_API_END_POINT} from "@/utils/constant.js";
 import axios from "axios";
 import { toast } from "sonner";
 import { setUser } from "@/redux/authSlice.js";

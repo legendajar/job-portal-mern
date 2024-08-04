@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import USER_API_END_POINT from "@/utils/constant.js";
+import {USER_API_END_POINT} from "@/utils/constant.js";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
 

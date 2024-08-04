@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { setLoading, setUser } from '@/redux/authSlice';
-import USER_API_END_POINT from '@/utils/constant.js';
+import {USER_API_END_POINT} from '@/utils/constant.js';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
