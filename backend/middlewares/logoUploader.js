@@ -6,7 +6,6 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary'
 const logoStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: async (req, file) => {
-        console.log("File in logo uploader middleware: ", file);
         return {
             folder: 'Job-Portal/company-logo',
             allowed_formats: ['jpg', 'jpeg', 'png'],

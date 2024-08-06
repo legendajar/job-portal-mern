@@ -48,7 +48,6 @@ const CompanySetup = () => {
         formData.append("website", input.website);
         formData.append("location", input.location);
         
-        console.log("Filer in Company Setup: ", input.file)
         if (input.file) {
             formData.append("file", input.file);
         }
