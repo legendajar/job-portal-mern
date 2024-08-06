@@ -90,11 +90,16 @@ const updateCompany = async (req, res) => {
     try {
         const companyId = req.params.id;
         const { name, description, website, location } = req.body;
-        const file = req.file;
+        const logo = req.file;
 
-        // Cloudinay
+        const updateData = { 
+            name: name, 
+            description: description, 
+            website: website, 
+            location: location, 
+            logo: logo.path
+        }
 
-        const updateData = { name, description, website, location }
         const company = await companyModel.findByIdAndUpdate(companyId, updateData, {new: true})
 
         if (!company) {

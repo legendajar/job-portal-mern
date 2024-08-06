@@ -1,6 +1,7 @@
 import express from 'express';
 import { registerCompany, getCompany, getCompanyById, updateCompany } from '../controllers/companyController.js'
 import isAuthenticated from '../middlewares/isAuthenticated.js';
+import logoUploader from '../middlewares/logoUploader.js';
 
 const companyRouter = express.Router();
 
@@ -14,7 +15,7 @@ companyRouter.get('/get', isAuthenticated, getCompany);
 companyRouter.get('/get/:id', isAuthenticated, getCompanyById );
 
 // Update Company Data Route
-companyRouter.put('/update/:id', isAuthenticated, updateCompany);
+companyRouter.put('/update/:id', isAuthenticated, logoUploader, updateCompany);
 
 
 export default companyRouter
