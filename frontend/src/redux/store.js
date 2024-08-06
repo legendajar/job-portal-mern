@@ -1,6 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authSlice from './authSlice.js';
 import jobSlice from './jobSlice.js';
+import storage from 'redux-persist/lib/storage'
+import companySlice from './companySlice.js';
+
 import {
     persistStore,
     persistReducer,
@@ -11,8 +14,7 @@ import {
     PURGE,
     REGISTER
 } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import companySlice from './companySlice.js';
+
 
 
 const persistConfig = {
@@ -37,4 +39,5 @@ const store = configureStore({
     })
 });
 
+export const persistor = persistStore(store);
 export default store;
