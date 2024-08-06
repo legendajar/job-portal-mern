@@ -14,7 +14,6 @@ const useGetAllCompanies = () => {
                     withCredentials: true
                 });
                 if(res.data.success) {
-                    console.log("Fetched Companies: ", res.data.companiess);
                     dispatch(setAllCompanies(res.data.companies))
                 }
             } catch (err) {

@@ -3,17 +3,25 @@ import { Avatar, AvatarImage } from '../ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const CompaniesTable = () => {
-    const { allCompanies } = useSelector(store => store.company)
+    const { allCompanies, searchCompanyByText } = useSelector(store => store.company)
     const [filterCompany, setFilterCompany] = useState(allCompanies)
-
+    const navigate = useNavigate();
     useEffect(() => {
-        
-    })
-    
-    
+        const filteredCompany = allCompanies.length >= 0 && allCompanies.filter((company) => {
+            if (!searchCompanyByText) {
+                return true
+            }
+            return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
+        });
+        setFilterCompany(filteredCompany);
+    }, [allCompanies, searchCompanyByText])
+
     return (
         <div>
             <Table>
@@ -28,9 +36,9 @@ const CompaniesTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        allCompanies.length <= 0 ?
+                        filterCompany.length <= 0 ?
                         <span> No Companies Found </span> : 
-                        allCompanies?.map((company) => {
+                        filterCompany?.map((company) => {
                             return (
                                 <tr key={company._id}>
                                     <TableCell>
@@ -50,7 +58,7 @@ const CompaniesTable = () => {
                                                 <MoreHorizontal />
                                             </PopoverTrigger>
                                             <PopoverContent className='w-32'>
-                                                <div className='flex items-center justify-around cursor-pointer'>
+                                                <div className='flex items-center justify-around cursor-pointer' onClick={() => navigate (`/recruiter/company/${company._id}`)}>
                                                     <Edit2 className='w-4' />
                                                     <span>Edit</span>
                                                 </div>

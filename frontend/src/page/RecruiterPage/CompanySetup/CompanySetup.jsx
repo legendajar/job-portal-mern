@@ -9,8 +9,12 @@ import { toast } from 'sonner'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import useGetCompanyById from '@/hooks/useGetCompanyById'
+
 
 const CompanySetup = () => {
+    const params = useParams();
+    useGetCompanyById(params.id);
     const {singleCompany} = useSelector(store => store.company);
     const [input, setInput] = useState({
         name: "",
@@ -37,8 +41,6 @@ const CompanySetup = () => {
     }
 
     const navigate = useNavigate();
-
-    const params = useParams();
     const id = params.id
     const submitHandler = async (e) => {
         e.preventDefault();
