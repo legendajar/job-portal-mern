@@ -110,6 +110,7 @@ const JobDescription = () => {
           <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-600'>{singleJob?.experienceLevel} yrs</span></h1>
           <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-600'>{singleJob?.salary}</span></h1>
           <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-600'>{singleJob?.applications.length}</span></h1>
+          <h1 className='font-bold my-1'>Requirements <span className='pl-4 font-normal text-gray-600'><Badge className='text-[#F83002] font-bold' variant='ghost'>HTMl </Badge></span></h1>
           <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-600'>{singleJob?.createdAt.split("T")[0]}</span></h1>
         </div>
       </div>

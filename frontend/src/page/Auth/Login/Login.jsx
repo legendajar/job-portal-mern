@@ -7,7 +7,7 @@ import { setLoading, setUser } from '@/redux/authSlice';
 import {USER_API_END_POINT} from '@/utils/constant.js';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -25,7 +25,7 @@ const Login = () => {
     })
   };
 
-  const {loading} = useSelector(store=>store.auth)
+  const {loading, user} = useSelector(store=>store.auth)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -60,6 +60,13 @@ const Login = () => {
     }
   }
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+      toast.success("You are already logged in")
+      return;
+    }
+  }, [])
   return (
     <div className='login'>
       <Navbar />

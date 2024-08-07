@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup } from "@radix-ui/react-radio-group"
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import {USER_API_END_POINT} from "@/utils/constant.js"
 import { toast } from "sonner"
@@ -24,7 +24,7 @@ const Signup = () => {
     file: ""
   })
 
-  const { loading } = useSelector(store => store.auth);
+  const { loading, user } = useSelector(store => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -80,6 +80,13 @@ const Signup = () => {
     }
   }
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+      toast.success("You are already logged in")
+      return;
+    }
+  }, [])
   return (
     <div className='signup'>
       <Navbar />
