@@ -76,6 +76,7 @@ const postJob = async (req, res) => {
             salary: Number(salary),
             location: location,
             jobType: jobType,
+            recruiterId: req.id,
             experienceLevel: experience,
             position: position,
             company: companyId,
@@ -160,10 +161,13 @@ const getJobById = async (req, res) => {
 
 const getAdminJob = async (req, res) => {
     try {
-        const adminId = req.id;
+        const recruiterId = req.id;
         const jobs = await jobModel.find({
-            created_at: adminId
-        })
+            recruiterId: recruiterId
+        }).populate({
+            path: 'company',
+            createdAt: -1
+        });
         if (!jobs) {
             return res.status(404).json({
                 success: false,

@@ -9,6 +9,7 @@ import JobDescription from './page/JobDescription/JobDescription';
 import Companies from './page/RecruiterPage/Companies/Companies'
 import CreateCompany from './page/RecruiterPage/CreateCompany/CreateCompany';
 import CompanySetup from './page/RecruiterPage/CompanySetup/CompanySetup';
+import RecruiterJobs from './page/RecruiterPage/RecruiterJobs/RecruiterJobs';
 
 const appRouter = createBrowserRouter([
   {
@@ -55,6 +56,11 @@ const appRouter = createBrowserRouter([
   {
     path: '/recruiter/company/:id',
     element: <CompanySetup />
+  },
+
+  {
+    path: '/recruiter/jobs',
+    element: <RecruiterJobs />
   }
 ])
 function App() {
