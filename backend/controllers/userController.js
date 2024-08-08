@@ -255,4 +255,85 @@ const updateProfile = async (req, res) => {
     }
 }
 
-export { register, login, logout, updateProfile }
+const forgetPassword = async (req, res) => {
+    console.log("Req Body from Controller: ",req.body)
+    try {
+        const { email, password, confirmPassword, role } = req.body;
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            })
+        }
+
+        if(!password){
+            return res.status(400).json({
+                success: false,
+                message: "Password is required"
+            })
+        }
+        
+        if (!confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Confirm Password is required"
+            })
+        }
+
+        if (password!== confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Passwords Do Not Match"
+            })
+        }
+
+        if (!role) {
+            return res.status(400).json({
+                success: false,
+                message: "Role is required"
+            })
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 6 characters"
+            })
+        }
+        
+        const user = await userModel.findOne({email: email });
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User Not Found"
+            })
+        }
+
+        if (user.role !== role) {
+            return res.status(400).json({
+                success: false,
+                message: "User Not Found"
+            })
+        }
+
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password Reset Successful"
+        })
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
+    }
+}
+
+
+export { register, login, logout, updateProfile, forgetPassword }

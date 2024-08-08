@@ -126,9 +126,15 @@ const Login = () => {
             <Button type="submit" className="w-full my-4 bg-[#F83002]"> Login </Button>
           }
           
-          <span className="text-sm"> Don't have an account ? 
-            <Link to='/auth/signup' className='text-blue-600'> Signup</Link>
-          </span>
+          <div className='flex items-center justify-between my-5'>
+            <span className="text-sm"> Don't have an account ? 
+              <Link to='/auth/signup' className='text-blue-600'> Signup</Link>
+            </span>
+
+            <span className="text-sm"> Don't remember password ?
+              <Link to='/auth/forgotpassword' className='text-blue-600'> Forgot Password</Link>
+            </span>
+          </div>
         </form>
       </div>
     </div>

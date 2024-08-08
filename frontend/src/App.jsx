@@ -13,6 +13,7 @@ import RecruiterJobs from './page/RecruiterPage/RecruiterJobs/RecruiterJobs';
 import PostJobs from './page/RecruiterPage/PostJobs/PostJobs';
 import Applicants from './page/RecruiterPage/Applicants/Applicants';
 import ProtectedRoute from './page/RecruiterPage/ProtectedRoute/ProtectedRoute';
+import ForgotPassword from './page/Auth/ForgotPassword/ForgotPassword';
 
 const appRouter = createBrowserRouter([
   {
@@ -43,6 +44,11 @@ const appRouter = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile />
+  },
+
+  {
+    path: '/auth/forgotpassword',
+    element: <ForgotPassword />
   },
 
   // Recruiter routes
