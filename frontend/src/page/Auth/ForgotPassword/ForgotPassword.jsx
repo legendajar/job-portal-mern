@@ -33,7 +33,6 @@ const ForgotPassword = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        console.log(input)
         
         const formData = new FormData();
         formData.append("email", input.email);
@@ -41,7 +40,6 @@ const ForgotPassword = () => {
         formData.append("confirmPassword", input.confirmPassword);
         formData.append("role", input.role);
 
-        console.log(formData)
 
         try {
             dispatch(setLoading(true));

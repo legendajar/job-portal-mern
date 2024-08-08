@@ -1,5 +1,5 @@
 import express from 'express'
-import { login, logout, register, updateProfile, forgetPassword } from '../controllers/userController.js';
+import { login, logout, register, updateProfile, forgetPassword, changePassword } from '../controllers/userController.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js';
 import singleUpload from '../middlewares/multer.js';
 import profileUploader from '../middlewares/profileImageUploader.js';
@@ -20,5 +20,8 @@ userRouter.post('/updateProfile', isAuthenticated, singleUpload,  updateProfile)
 
 // Forget Password Route
 userRouter.post('/forgotpassword', forgetPassword);
+
+// Change Passwor Route
+userRouter.post('/changepassword', isAuthenticated, changePassword);
 
 export default userRouter;

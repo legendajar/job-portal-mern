@@ -91,7 +91,7 @@ const register = async (req, res) => {
             message: "Internal Server Error"
         })
     }
-}
+};
 
 const login = async (req, res) => {
     const { email, password, role } = req.body;
@@ -175,7 +175,7 @@ const login = async (req, res) => {
             message: "Internal Server Error"
         })
     }
-}
+};
 
 const logout = async (req, res) => {
     try {
@@ -253,7 +253,7 @@ const updateProfile = async (req, res) => {
             message: "Internal Server Error"
         })
     }
-}
+};
 
 const forgetPassword = async (req, res) => {
     console.log("Req Body from Controller: ",req.body)
@@ -333,7 +333,86 @@ const forgetPassword = async (req, res) => {
             message: "Internal Server Error"
         })
     }
+};
+
+const changePassword = async (req, res) => {
+    try {
+        const { password, newPassword, confirmNewPassword } = req.body;
+        if (!password) {
+            return res.status(400).json({
+                success: false,
+                message: "Password is required"
+            })
+        }
+
+        if (!newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "New Password is required"
+            })
+        }
+
+        if (!confirmNewPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Confirm New Password is required"
+            })
+        }
+
+        if (password === newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "New password cannot be same as current password"
+            })
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Passwords Do Not Match"
+            })
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 6 characters"
+            })
+        }
+
+        const userId = req.id;
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User Not Found"
+            })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "Old Password does not match"
+            })
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password Changed Successfully"
+        })
+    } catch (err) {
+        console.log(err);
+        return res.json({
+            success: false,
+            message: "Internal Server Error"
+        })
+    }
 }
 
 
-export { register, login, logout, updateProfile, forgetPassword }
+export { register, login, logout, updateProfile, forgetPassword, changePassword }

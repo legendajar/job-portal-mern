@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { LogOut, User2 } from "lucide-react";
+import { Edit2, LogOut, User2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {USER_API_END_POINT} from "@/utils/constant.js";
 import axios from "axios";
@@ -71,15 +71,35 @@ const Navbar = () => {
                         ) : (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Avatar className="cursor-pointer">
-                                        <AvatarImage src={user?.profile?.profilePhoto} alt="Avatar Image" />
-                                    </Avatar>
+                                    {
+                                        user.profile.profilePhoto ? 
+                                        (
+                                            <Avatar className="cursor-pointer">
+                                                <AvatarImage src={user?.profile?.profilePhoto} alt="Avatar Image" />
+                                            </Avatar>
+                                        ) : 
+                                        (
+                                            <Avatar className="cursor-pointer">
+                                                <AvatarImage src="https://github.com/shadcn.png" alt="Avatar Image" />
+                                            </Avatar>
+                                        )
+                                    }
                                 </PopoverTrigger>
                                 <PopoverContent className="w-80">
                                     <div className="flex gap-4 space-y-2">
-                                        <Avatar className="cursor-pointer">
-                                            <AvatarImage src="https://github.com/shadcn.png" alt="Avatar Image" />
-                                        </Avatar>
+                                        {
+                                            user.profile.profilePhoto ? 
+                                            (
+                                                <Avatar className="cursor-pointer">
+                                                    <AvatarImage src={user?.profile?.profilePhoto} alt="Avatar Image" />
+                                                </Avatar>
+                                            ) : 
+                                            (
+                                                <Avatar className="cursor-pointer">
+                                                    <AvatarImage src="https://github.com/shadcn.png" alt="Avatar Image" />
+                                                </Avatar>
+                                            )
+                                        }
                                         <div>
                                             <h4 className="font-medium ">{user?.firstName} {user?.lastName}</h4>
                                             <p className="text-sm text-muted-foreground">
@@ -100,6 +120,15 @@ const Navbar = () => {
                                             </div>
                                             )
                                         }
+
+                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                            <Edit2 />
+                                            <Button variant="link">
+                                                <Link to={`/user/${user._id}/changepassword`} >
+                                                    Change Password
+                                                </Link>
+                                            </Button>
+                                        </div>
                                         
                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                                             <LogOut />
