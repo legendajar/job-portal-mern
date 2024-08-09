@@ -7,6 +7,10 @@ import userRouter from './routes/userRoute.js';
 import companyRouter from './routes/companyRoute.js';
 import jobRouter from './routes/jobRoute.js';
 import applicationRouter from './routes/applicationRoute.js';
+import morgan from 'morgan'
+import path from 'path'
+import {createStream} from 'rotating-file-stream'
+import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -14,6 +18,8 @@ const PORT = process.env.PORT;
 // Database Connection
 connectDB();
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(express.json());
@@ -24,7 +30,17 @@ const corsOptions = {
     credentials: true
 }
 app.use(cors(corsOptions));
+console.log(path.__dirname)
 
+
+// Setup Rotating file stream to create log file daily 
+const accessLogStream = createStream('access.log', {
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'log')
+})
+
+// setup Morgan Logger
+app.use(morgan('combined', { stream: accessLogStream }))
 
 // API Request
 app.get('/home', (req, res) => {
