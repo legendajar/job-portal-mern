@@ -30,7 +30,7 @@ const corsOptions = {
     credentials: true
 }
 app.use(cors(corsOptions));
-console.log(path.__dirname)
+
 
 
 // Setup Rotating file stream to create log file daily 
