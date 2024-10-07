@@ -76,7 +76,7 @@ Ensure you have the following installed:
 2. **Go to Server**
 
    ```bash
-   cd server
+   cd backend
 
 3. **Run server**
 
@@ -87,7 +87,7 @@ Ensure you have the following installed:
 
 4. **Go to Client**
     ```bash
-    cd client
+    cd frontend
 
 5. **Run Client Server**
     ```bash
